@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using OrderDomainEventExample.OrderDomain;
 using OrderDomainEventExample.Utils.EventHandler;
 using OrderDomainEventExample.Utils.Events;
 
@@ -17,6 +16,7 @@ public class DomainEventDispatcher : IDomainEventDispatcher
     public async Task DispatchAsync(IDomainEvent domainEvent)
     {
         var handlerType = typeof(IDomainEventHandler<>).MakeGenericType(domainEvent.GetType());
+        // Type ( IDomainEventHandler<OrderCreatedEvent> )
         var handlers = _serviceProvider.GetServices(handlerType);
 
         foreach (var handler in handlers)

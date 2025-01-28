@@ -15,6 +15,6 @@ public class SendOrderConfirmationTelegramHandler : IDomainEventHandler<OrderCre
     {
         var subject = "Ваше замовлення підтверджено!";
         var message = $"Дякуємо за замовлення! Номер замовлення: {domainEvent.OrderId}.";
-        await _telegramService.SendEmailAsync(domainEvent.CustomerId, subject, message);
+        await _telegramService.SendMessageAsync(domainEvent.CustomerId, subject, message);
     }
 }

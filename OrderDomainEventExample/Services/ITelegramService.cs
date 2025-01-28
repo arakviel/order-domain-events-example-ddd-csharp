@@ -2,5 +2,5 @@
 
 public interface ITelegramService
 {
-    Task SendEmailAsync(Guid customerId, string subject, string message);
+    Task SendMessageAsync(Guid customerId, string subject, string message);
 }

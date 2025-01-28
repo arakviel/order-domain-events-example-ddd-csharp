@@ -20,6 +20,55 @@ public class OrderService
         Console.WriteLine($"Order {order.Id} created for Customer {customerId}.");
 
         // Обробка подій
+        await DispatchDomainEventsAsync(order);
+    }
+
+    public async Task AddItemToOrderAsync(Order order, OrderItem item)
+    {
+        order.AddItem(item);
+
+        // Імітація оновлення замовлення в БД
+        Console.WriteLine($"Item {item.ProductId} added to Order {order.Id}.");
+
+        // Обробка подій
+        await DispatchDomainEventsAsync(order);
+    }
+
+    public async Task RemoveItemFromOrderAsync(Order order, Guid productId)
+    {
+        order.RemoveItem(productId);
+
+        // Імітація оновлення замовлення в БД
+        Console.WriteLine($"Item {productId} removed from Order {order.Id}.");
+
+        // Обробка подій
+        await DispatchDomainEventsAsync(order);
+    }
+
+    public async Task UpdateItemQuantityAsync(Order order, Guid productId, int newQuantity)
+    {
+        order.UpdateItemQuantity(productId, newQuantity);
+
+        // Імітація оновлення замовлення в БД
+        Console.WriteLine($"Item {productId} quantity updated in Order {order.Id}.");
+
+        // Обробка подій
+        await DispatchDomainEventsAsync(order);
+    }
+
+    public async Task ChangeOrderStatusAsync(Order order, string newStatus)
+    {
+        order.ChangeStatus(newStatus);
+
+        // Імітація оновлення замовлення в БД
+        Console.WriteLine($"Order {order.Id} status changed to {newStatus}.");
+
+        // Обробка подій
+        await DispatchDomainEventsAsync(order);
+    }
+
+    private async Task DispatchDomainEventsAsync(Order order)
+    {
         foreach (var domainEvent in order.DomainEvents)
         {
             await _eventDispatcher.DispatchAsync(domainEvent);
@@ -28,4 +77,3 @@ public class OrderService
         order.ClearDomainEvents();
     }
 }
-

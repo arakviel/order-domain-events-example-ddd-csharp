@@ -1,10 +1,21 @@
-﻿using System;
+﻿namespace OrderDomainEventExample.OrderDomain;
 
-namespace OrderDomainEventExample.OrderDomain;
-
-public record OrderItem
+public class OrderItem
 {
-    public Guid ProductId { get; init; }
-    public uint Quantity { get; init; }
-    public decimal Price { get; init; }
+    public Guid ProductId { get; private set; }
+    public int Quantity { get; private set; }
+    public decimal Price { get; private set; }
+
+    public OrderItem(Guid productId, int quantity, decimal price)
+    {
+        ProductId = productId;
+        Quantity = quantity;
+        Price = price;
+    }
+
+    public void UpdateQuantity(int newQuantity)
+    {
+        if (newQuantity <= 0) throw new ArgumentException("Quantity must be greater than zero.");
+        Quantity = newQuantity;
+    }
 }
